@@ -4,12 +4,12 @@ from google.cloud.sql.connector import Connector, IPTypes
 import pymysql
 import sqlalchemy
 
-def connect_with_connector() -> sqlalchemy.engine.base.Engine:
+def connect_with_connector(database) -> sqlalchemy.engine.base.Engine:
     credentials = get_cloud_sql_credentials()
     instance_connection_name = credentials['INSTANCE_CONNECTION_NAME']
     db_user = credentials["DB_USER"]
     db_pass = credentials["DB_PASS"]
-    db_name = 'nueces_superfruit'
+    db_name = database
 
     ip_type = IPTypes.PUBLIC
 
@@ -41,8 +41,8 @@ def get_cloud_sql_credentials():
     credentials = json.loads(secret_data)
     return credentials
 
-def insert_row_to_table(data_dict, table):
-    pool = connect_with_connector()
+def insert_row_to_table(data_dict, table, database):
+    pool = connect_with_connector(database)
     ctx = pool.connect()
 
     data_dict = {**{k.upper(): v for k, v in data_dict.items()}}

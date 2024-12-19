@@ -45,6 +45,15 @@ def adjust_confidence(obj, classes):
     return obj
 
 def parse_predictions(data, classes):
+    """
+    Parameters:
+        data (dict): A dictionary containing 'predictions' (list of predicted objects), 
+                    'time' (timestamp), and 'image' (image reference).
+        classes (list): A list of class labels used for adjusting prediction confidence.
+
+    Returns:
+        dict: A dictionary containing 'time', 'image', and a filtered list of 'predictions'.
+    """
     predictions = [
         adjust_confidence(prediction, classes) for prediction in data['predictions']
     ]
@@ -83,8 +92,6 @@ def parse_predictions(data, classes):
             seen_ids.add(id(highest_confidence_obj))
 
     return {'time': data['time'], 'image': data['image'], 'predictions': filtered_data}
-
-from collections import Counter
 
 def get_class_counts(results, inspection_dict):
     """
