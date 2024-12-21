@@ -95,7 +95,7 @@ def parse_predictions(data, classes=None):
 
     return {'time': data['time'], 'image': data['image'], 'predictions': filtered_data}
 
-def get_class_counts(results, inspection_dict):
+def get_class_counts(results, inspection_classes):
     """
     Count occurrences of each class in the predictions and ensure all keys 
     in the inspection_dict are represented in the output with a count of zero if missing.
@@ -103,14 +103,15 @@ def get_class_counts(results, inspection_dict):
     Parameters:
     - results (dict): A dictionary containing predictions under the 'predictions' key.
                       Each prediction should be a dictionary with a 'class' key.
-    - inspection_dict (dict): A dictionary whose keys represent all expected classes.
+    - inspection_classes (PredictionClass list): A list of all expected classes.
 
     Returns:
-    - dict: A dictionary with counts for each class, ensuring all inspection_dict keys are present.
+    - dict: A dictionary with counts for each class.
     """
     counts = Counter(tok['class'] for tok in results.get('predictions', []))
-
-    return {key: counts.get(key, 0) for key in inspection_dict.keys()}
+    inspection_class_keys = [pc.class_name for pc in inspection_classes]
+    
+    return {key: counts.get(key, 0) for key in inspection_class_keys}
 
 def plot_patches(image, data, prediction_classes):
     """
