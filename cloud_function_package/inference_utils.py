@@ -1,10 +1,19 @@
-import json
 from PIL import Image
 from collections import Counter
 import json
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
+class PredictionClass:
+    def __init__(self, class_name, sql_name, color, translation):
+        self.class_name = class_name #Roboflow class name
+        self.sql_name = sql_name #SQL Table column name
+        self.color = color #Plot color
+        self.translation = translation #Translated name
+
+    def __repr__(self):
+        return f"PredictionClass({self.class_name}, {self.sql_name}, {self.color}, {self.translation})"
+    
 def remove_points(data):
     for prediction in data.get("predictions", []):
         if "points" in prediction:
