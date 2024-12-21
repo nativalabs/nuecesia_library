@@ -44,7 +44,7 @@ def adjust_confidence(obj, classes):
 
     return obj
 
-def parse_predictions(data, classes):
+def parse_predictions(data, classes=None):
     """
     Parameters:
         data (dict): A dictionary containing 'predictions' (list of predicted objects), 
@@ -54,6 +54,8 @@ def parse_predictions(data, classes):
     Returns:
         dict: A dictionary containing 'time', 'image', and a filtered list of 'predictions'.
     """
+    classes = classes or []
+
     predictions = [
         adjust_confidence(prediction, classes) for prediction in data['predictions']
     ]
