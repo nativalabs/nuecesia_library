@@ -167,9 +167,10 @@ def plot_patches(image, data, prediction_classes):
         for class_name in used_classes
     ]
     labels = [
-        f"{class_info[class_name].translation}: {data['predictions'].count({'class': class_name})}" 
+        f"{class_info[class_name].translation}: {sum(1 for pred in data['predictions'] if pred.get('class') == class_name)}"
         for class_name in used_classes
     ]
+
     ax.legend(
         markers, labels, numpoints=1, ncol=3, prop={'size': 3.5},
         loc='upper right', bbox_to_anchor=(1, 1)
